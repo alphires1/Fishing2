@@ -6,17 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>283</width>
-    <height>184</height>
+    <width>300</width>
+    <height>200</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>设置</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normalon>resources/tools_icon.png</normalon>
+   </iconset>
+  </property>
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
-  <widget class="QLabel" name="collect">
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QLabel" name="collect_label">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -26,13 +34,13 @@
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#acc8e6;&quot;&gt;收藏：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#e5d605;&quot;&gt;收藏：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="textFormat">
     <enum>Qt::RichText</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="sale">
+  <widget class="QLabel" name="sale_label">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -45,23 +53,26 @@
     <enum>Qt::LeftToRight</enum>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#9bc3e6;&quot;&gt;出售：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#e5d605;&quot;&gt;出售：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="textFormat">
     <enum>Qt::RichText</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="tips_label">
    <property name="geometry">
     <rect>
      <x>70</x>
      <y>0</y>
      <width>161</width>
-     <height>61</height>
+     <height>51</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;请按游戏中规则绑定对应按键&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#26f717;&quot;&gt;请按游戏中规则绑定对应按键&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="textFormat">
     <enum>Qt::RichText</enum>
@@ -73,23 +84,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QToolButton" name="collect_toolButton">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>70</y>
-     <width>24</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="autoFillBackground">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>f1</string>
-   </property>
-  </widget>
-  <widget class="QToolButton" name="pull_toolButton">
+  <widget class="QToolButton" name="sale_toolButton">
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -102,7 +97,7 @@
     <string>f1</string>
    </property>
   </widget>
-  <widget class="QLabel" name="pull">
+  <widget class="QLabel" name="throw_label">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -112,13 +107,13 @@
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#acc8e6;&quot;&gt;抛竿：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#e5d605;&quot;&gt;抛竿：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="textFormat">
     <enum>Qt::RichText</enum>
    </property>
   </widget>
-  <widget class="QToolButton" name="sale_toolButton">
+  <widget class="QToolButton" name="throw_toolButton">
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -141,51 +136,106 @@
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#acc8e6;&quot;&gt;主窗口背景：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#e5d605;&quot;&gt;主窗口背景：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="textFormat">
     <enum>Qt::RichText</enum>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_2">
+  <widget class="QLabel" name="bg_label">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>90</y>
-     <width>95</width>
-     <height>19</height>
+     <x>0</x>
+     <y>0</y>
+     <width>301</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="collect_toolButton">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>70</y>
+     <width>24</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>背景2</string>
+    <string>f1</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_3">
+  <widget class="QRadioButton" name="bg_radioButton">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>120</y>
-     <width>95</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>背景3</string>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="radioButton_4">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>60</y>
-     <width>95</width>
-     <height>19</height>
+     <x>200</x>
+     <y>50</y>
+     <width>60</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
     <string>背景1</string>
    </property>
   </widget>
+  <widget class="QRadioButton" name="bg_radioButton_2">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>80</y>
+     <width>60</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>背景2</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="bg_radioButton_3">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>110</y>
+     <width>60</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>背景3</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="bg_radioButton_4">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>140</y>
+     <width>60</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>背景4</string>
+   </property>
+  </widget>
+  <zorder>bg_label</zorder>
+  <zorder>collect_label</zorder>
+  <zorder>sale_label</zorder>
+  <zorder>tips_label</zorder>
+  <zorder>sale_toolButton</zorder>
+  <zorder>throw_label</zorder>
+  <zorder>throw_toolButton</zorder>
+  <zorder>bg_title</zorder>
+  <zorder>collect_toolButton</zorder>
+  <zorder>bg_radioButton</zorder>
+  <zorder>bg_radioButton_2</zorder>
+  <zorder>bg_radioButton_3</zorder>
+  <zorder>bg_radioButton_4</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>711</width>
+    <width>700</width>
     <height>400</height>
    </rect>
   </property>
@@ -35,9 +35,9 @@
   <widget class="QLabel" name="bgLabel">
    <property name="geometry">
     <rect>
-     <x>2</x>
+     <x>0</x>
      <y>0</y>
-     <width>711</width>
+     <width>700</width>
      <height>400</height>
     </rect>
    </property>
@@ -52,38 +52,6 @@
    </property>
    <property name="scaledContents">
     <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="start_button">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>270</y>
-     <width>75</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>开始</string>
-   </property>
-   <property name="autoDefault">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="stop_button">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>330</y>
-     <width>75</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>停止</string>
    </property>
   </widget>
   <widget class="QPlainTextEdit" name="operationText">
@@ -117,19 +85,74 @@
   <widget class="QToolButton" name="setting_toolButton">
    <property name="geometry">
     <rect>
-     <x>685</x>
+     <x>675</x>
      <y>30</y>
-     <width>31</width>
-     <height>31</height>
+     <width>30</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
-    <string>...</string>
+    <string/>
    </property>
    <property name="icon">
     <iconset>
      <normaloff>resources/tools_icon.png</normaloff>
      <normalon>resources/tools_icon.png</normalon>resources/tools_icon.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="autoRaise">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="start_button">
+   <property name="geometry">
+    <rect>
+     <x>-3</x>
+     <y>40</y>
+     <width>30</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/startbutton.png</normaloff>resources/startbutton.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <property name="autoRaise">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="stop_button">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>-3</x>
+     <y>80</y>
+     <width>30</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/stopbutton.png</normaloff>resources/stopbutton.png</iconset>
    </property>
    <property name="iconSize">
     <size>
