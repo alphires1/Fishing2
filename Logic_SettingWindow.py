@@ -24,14 +24,14 @@ class SettingWindow(QMainWindow):
         self.movie.start()
         self.setWindowFlags(self.windowFlags().WindowCloseButtonHint)  # 禁用最小化按钮?? 为什么不是WindowMinimizeButtonHint
 
-        self.config_dict = self.main_window.config_dict  # 获取配置信息
+        self.config_dict = self.tool.config_dict  # 获取配置信息
         """根据配置信息设置UI"""
         self.ui.collect_toolButton.setText(self.config_dict['收藏'])
         self.ui.sale_toolButton.setText(self.config_dict['出售'])
         self.ui.throw_toolButton.setText(self.config_dict['抛竿'])
         self.bg_path = self.config_dict['主窗口背景']
         print("[bg_main]开始获取列表")
-        self.bg_path_list = self.tool.get_img_arr(self, "bg_main")
+        self.bg_path_list = self.tool.get_img_info("bg_main").path_list
 
         self.bg_radioButton_list = [
             self.ui.bg_radioButton,
@@ -106,6 +106,7 @@ class SettingWindow(QMainWindow):
         self.ui.throw_toolButton.setText(self.key_str)
 
     def begin_listen(self, key):
+        self.key_str = ''
         try:
             self.key_str = format(key.char)
             print(key.char)
@@ -116,6 +117,7 @@ class SettingWindow(QMainWindow):
                 i += 1
                 if i > 4:
                     self.key_str = self.key_str + char
+        print(f"当前键值为：{self.key_str}")
 
     def end_listen(self, key):
         self.setEnabled(True)

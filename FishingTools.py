@@ -10,9 +10,10 @@ from PyQt6.QtWidgets import QWidget, QMainWindow
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import pyqtSignal, QObject, QThread
 import Logic_Fishing, Logic_MainWindow, Logic_SettingWindow
-from pynput.keyboard import Controller
+from pynput.keyboard import Controller, Listener, Key
 
-class Tool():
+
+class Tool:
     _instance = None
 
     def __init__(self):
@@ -22,10 +23,14 @@ class Tool():
             '主窗口背景': r".\resources\bg_main_1.png",
             "抛竿": 'f1',
             '收藏': 'f1',
-            '出售': 'f1'
-        }
+            '出售': 'f1',
+            '开始': 'home',
+            '停止': 'end'
+        }  # 默认配置
         self.fishing = Logic_Fishing.Fishing.get_instance(self)
         self.keyboard = Controller()
+        self.key_str = ""
+        self.is_emit = False
         self.config_dict = {}  # 配置字典
         self.chk_config_path(self.config_path)  # 检查配置文件
         self.load_setting_files(self.config_path)  # 加载配置
@@ -56,33 +61,32 @@ class Tool():
             return pixmap
 
     @staticmethod
-    def get_img_arr(orgin, picname):
+    def get_img_info(pic_name, deal_type='direct'):
         """静态工具函数"""
         name_arr = []
         path_arr = []
-        img_arr = []
-        img_path = os.path.join('.', 'resources', picname)
+        # img_arr = []
+        if deal_type == 'split':
+            pic_name = pic_name.split('_')[0]
+        img_path = os.path.join('.', 'resources', pic_name)
         temp_continue = True
         i = 1
         while temp_continue:
             pic_path = img_path + f"_{i}.png"
-            name = picname + f"_{i}.png"
+            name = pic_name + f"_{i}.png"
             img = Tool.load_img(pic_path)
             if img is None:
                 print(f"载入{pic_path}失败")
                 break
-            print(f"{pic_path}已载入")
-            img_arr.append(img)
-            path_arr.append(pic_path)
+            print(f"{name}已载入")
             name_arr.append(name)
+            #img_arr.append(img)
+            path_arr.append(pic_path)
             i += 1
-        print(f"共加载[{len(img_arr)}]张图片")
-        if type(orgin) is Tool:
-            return img_arr
-        elif type(orgin) is Logic_MainWindow.MainWindow or Logic_SettingWindow.SettingWindow :
-            return path_arr
-        elif type(orgin) is Logic_Fishing.Fishing:
-            return name_arr
+        print(f"共加载[{len(name_arr)}]张图片")
+        img_info = Image_info(name_arr, path_arr)
+        return img_info
+
     @staticmethod
     def load_img(pic_path):
         path = os.path.join(pic_path)
@@ -114,6 +118,12 @@ class Tool():
         except Exception as e:
             print(f"加载配置文件{path}时发生未知错误：{e}")
             self.default_setting_files()
+        default_config_keys = set(self.default_config_dict)
+        result = default_config_keys.issubset(self.config_dict.keys())  # 校验默认配置中的所有键是否都在当前配置文件中
+        if not result:  # 如果缺少，则加载默认配置
+            for key in default_config_keys:
+                if self.config_dict.get(key) is None:
+                    self.config_dict[key] = self.default_config_dict[key]
 
         print("具体配置如下：{")
         for key, value in self.config_dict.items():
@@ -151,22 +161,61 @@ class Tool():
             center_pos.y = orgin.pos().y() + orgin.height() / 2
         return center_pos
 
-    def pic_process(self, pic_name, deal_type='search', way='left'):
-        """图片识别"""
-        pic_path = os.path.join('.', 'resources', pic_name)
-        img_arr = Tool.get_img_arr(self, pic_name)
-        if len(img_arr) != 0:
-            pic = ag.locateOnScreen(pic_path, confidence=0.9)
+    def pic_process_by_info(self, img_info, way='search'):
+        """图片识别_通过预读取的信息类"""
+        path_list = img_info.path_list
+        for path in path_list:
+            pic = ag.locateOnScreen(path, confidence=0.9)
             if pic is not None:
-                print(f"找到:{pic_name}")
-                if deal_type == 'click':
+                print(f"找到{path}")
+                if way == 'click':
                     x, y = ag.center(pic)
-                    ag.click(x, y, clicks=1, interval=1.0, button=way, duration=0.5, tween=ag.linear)
+                    ag.click(x, y, clicks=1, interval=1.0, button='left', duration=0.5, tween=ag.linear)
                     ag.moveTo(x + 20, y + 20, duration=0.8)
-            return pic
 
-    def press_key(self, msg):
+                return pic
+
+    def press_key(self, msg, way='search'):
         ag.press(self.config_dict[msg])
+
+
+class KeyboardListener(QThread):
+    key_pressed = pyqtSignal(str)  # 定义一个新的信号用于发送按键事件
+
+    def __init__(self):
+        super().__init__()
+        self.key_str = ''
+        self.is_emit = False
+
+    def run(self):
+
+        def on_press(key):
+            self.key_str = ''  # 手动清空一次键值，防止特殊键拼接时出错
+            try:
+                self.key_str = str(key.char)
+            except AttributeError:
+                # 如果是特殊按键，比如F1, Shift等
+                temp = format(key)
+                i = 0
+                for char in temp:
+                    i += 1
+                    if i > 4:
+                        self.key_str = self.key_str + char
+            self.is_emit = True
+            self.emit_key()
+
+        def on_release(key):
+            if key == Key.esc:
+                # 停止监听，例如使用Esc键
+                return False
+
+        with Listener(on_press=on_press, on_release=on_release) as listener:
+            listener.join()
+
+    def emit_key(self):
+        if self.is_emit:
+            self.key_pressed.emit(self.key_str)  # 发射信号
+            self.is_emit = False
 
 
 class WorkerSignals(QObject):
@@ -198,3 +247,10 @@ class Pos:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+
+
+class Image_info:
+    def __init__(self, name_list, path_list):
+        self.name_list = name_list
+        self.path_list = path_list
+        # self.img_list = img_list
