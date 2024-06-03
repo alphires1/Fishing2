@@ -39,12 +39,6 @@ class Fishing:
     def fishing_start(self):
         start_time = timeit.default_timer()
         if self.operation_state == '开始运行':
-
-            for pic in self.hold_img_info.name_list:
-                if self.tool.pic_process_by_info(self.hold_img_info, 'click') is not None:
-                    return "拉竿"
-            _time = timeit.default_timer()
-            print(f"拉竿耗时: {_time - start_time} seconds")
             for pic in self.throw_img_info.name_list:
                 if self.tool.pic_process_by_info(self.throw_img_info) is not None:
                     self.tool.press_key('抛竿')
@@ -70,7 +64,19 @@ class Fishing:
                     self.tool.press_key('esc', 'direct')
                     return "关闭遮挡"
             end_time = timeit.default_timer()
-            print(f"主线程耗时: {end_time - start_time} seconds")
+            print(f"子线程一耗时: {end_time - start_time} seconds")
+
+    def fishing_throw(self):
+        if self.operation_state == '开始运行':
+            start_time = timeit.default_timer()
+            for pic in self.hold_img_info.name_list:
+                if self.tool.pic_process_by_info(self.hold_img_info, 'click') is not None:
+                    return "拉竿"
+            end_time = timeit.default_timer()
+            print(f"子线程二耗时: {end_time - start_time} seconds")
+
+
+
     def get_img_info(self, img_name):
         print(f"[{img_name}]开始获取列表")
         img_info = self.tool.get_img_info(img_name)

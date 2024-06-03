@@ -4,8 +4,8 @@ from Logic_SettingWindow import SettingWindow
 from PyQt6 import QtCore
 import FishingTools
 from Logic_Fishing import Fishing
-import time
-from pynput.keyboard import Listener,Key
+import time, timeit
+from pynput.keyboard import Listener, Key
 
 
 # 主窗口逻辑类
@@ -51,12 +51,17 @@ class MainWindow(QMainWindow):
         self.fishiing_worker.signals.result.connect(self.on_fishing_result)
         self.fishiing_worker.signals.finish.connect(self.on_fishing_finished)
         self.fishiing_worker.signals.error.connect(self.on_fishing_error)
-        
+
+        self.fishing_throw = FishingTools.Worker(self.on_fishing_throw)
+        self.fishing_throw.signals.result.connect(self.on_fishing_result)
+        self.fishing_throw.signals.error.connect(self.on_fishing_error)
+
         self.keyboard_listener = FishingTools.KeyboardListener()
         self.keyboard_listener.key_pressed.connect(self.on_keyboard_start)
 
-        # 开始后台任务
+        #  开始后台任务
         self.fishiing_worker.start()
+        self.fishing_throw.start()
         self.keyboard_listener.start()
 
     def on_fishing_start(self):
@@ -74,7 +79,7 @@ class MainWindow(QMainWindow):
             self.update_operation_text(msg)
 
     def on_fishing_finished(self):
-        self.fishiing_worker.start()
+        pass
 
     def on_fishing_error(self, value):
         print(f"注意进程出错{value}")
@@ -84,6 +89,12 @@ class MainWindow(QMainWindow):
         """用于接收功能逻辑传回的数据，异步线程避免阻滞主线程更新 """
         if msg_type == '更新文本':
             self.update_operation_text(msg)
+
+    def on_fishing_throw(self):
+        while True:
+            msg = self.fishing.fishing_throw()
+            self.fishing_throw.signals.result.emit(msg)
+            time.sleep(0.1)
 
     def on_start_clicked(self):
         self.operation_state.emit('开始运行')
@@ -97,7 +108,7 @@ class MainWindow(QMainWindow):
         self.update_operation_text('停止程序')
         self.ui.stop_button.setEnabled(False)
         self.ui.start_button.setEnabled(True)
-        self.ui.setting_toolButton.setEnabled(True)   
+        self.ui.setting_toolButton.setEnabled(True)
 
     def on_data_returned(self, key, value):
         """观察者模式：监测设置窗口传回的值"""
@@ -125,7 +136,5 @@ class MainWindow(QMainWindow):
         elif key == self.fishing_tool.config_dict['停止']:
             self.on_stop_clicked()
 
-    def on_listerer_error(self,value:ValueError):
+    def on_listerer_error(self, value: ValueError):
         print(value)
-
-
