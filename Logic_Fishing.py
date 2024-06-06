@@ -60,8 +60,8 @@ class Fishing:
                             if self.tool.pic_process_by_info(self.release_img_info) is not None:
                                 self.tool.keyboard.release(Key.space)
             for pic in self.close_img_info.name_list:
-                if self.tool.pic_process_by_info(self.close_img_info) is not None:
-                    self.tool.press_key('esc', 'direct')
+                if self.tool.pic_process_by_info(self.close_img_info, 'click') is not None:
+                    # self.tool.press_key('esc')
                     return "关闭遮挡"
             end_time = timeit.default_timer()
             print(f"子线程一耗时: {end_time - start_time} seconds")
@@ -74,8 +74,6 @@ class Fishing:
                     return "拉竿"
             end_time = timeit.default_timer()
             print(f"子线程二耗时: {end_time - start_time} seconds")
-
-
 
     def get_img_info(self, img_name):
         print(f"[{img_name}]开始获取列表")

@@ -1,5 +1,4 @@
 import io
-import os
 import json
 import cv2
 import time
@@ -175,7 +174,7 @@ class Tool:
 
                 return pic
 
-    def press_key(self, msg, way='search'):
+    def press_key(self, msg):
         ag.press(self.config_dict[msg])
 
 

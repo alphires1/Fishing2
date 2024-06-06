@@ -4,8 +4,7 @@ from Logic_SettingWindow import SettingWindow
 from PyQt6 import QtCore
 import FishingTools
 from Logic_Fishing import Fishing
-import time, timeit
-from pynput.keyboard import Listener, Key
+import time
 
 
 # 主窗口逻辑类
@@ -135,6 +134,6 @@ class MainWindow(QMainWindow):
             self.on_start_clicked()
         elif key == self.fishing_tool.config_dict['停止']:
             self.on_stop_clicked()
-
-    def on_listerer_error(self, value: ValueError):
+            
+    def on_listener_error(self, value: ValueError):
         print(value)

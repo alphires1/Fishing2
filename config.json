@@ -1,8 +1,8 @@
 {
-    "\u4e3b\u7a97\u53e3\u80cc\u666f": ".\\resources\\bg_main_3.png",
-    "\u629b\u7aff": "f2",
+    "\u4e3b\u7a97\u53e3\u80cc\u666f": ".\\resources\\bg_main_1.png",
+    "\u629b\u7aff": "f1",
     "\u505c\u6b62": "end",
-    "\u51fa\u552e": "f3",
+    "\u51fa\u552e": "f1",
     "\u5f00\u59cb": "home",
-    "\u6536\u85cf": "delete"
+    "\u6536\u85cf": "f1"
 }
